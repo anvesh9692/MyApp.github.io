@@ -83,7 +83,7 @@
     var xmlPayload = '<?xml version="1.0" encoding="UTF-8"?><Req_User_Dtls><Username>' + username + '</Username><Password>' + password + '</Password></Req_User_Dtls>';
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'https://abweblive.servehttp.com:7843/API/UserDetails/Validation', true);
+    xhr.open('POST', 'https://abweblive.servehttp.com:7844/API/UserDetails/Validation', true);
 
     xhr.onreadystatechange = function() {
       if (xhr.readyState === XMLHttpRequest.DONE) {
