@@ -44,7 +44,7 @@
 		pre {
             font-weight: bold;
             font-size: 22px;
-            color: black;
+            color: red;
         }
 		.logo {
             position: absolute;
@@ -59,8 +59,12 @@
     <div class="container">
 	<h2>Enter Username and Password</h2>
     <form id="createuserform">
+	   <label for="dob">Username:</label>
        <input type="text" id="username" name="username" placeholder="username" required>
-       <input type="password" id="password" name="password" placeholder="password" required>
+       <label for="dob">Password:</label>
+	   <input type="password" id="password" name="password" placeholder="password" required>
+	   <label for="dob">Date of Birth:</label>
+	   <input type="date" id="dob" name="dob" required>
        <button type="submit" class="btn">Submit</button>
     </form>
     <div id="response"></div>
@@ -75,16 +79,16 @@
 
     var username = document.getElementById('username').value;
 	var password = document.getElementById('password').value;
-	
+	var dob = document.getElementById('dob').value;
     if (username === '') {
       alert('Please enter Username and Password.');
       return;
     }
 
-    var xmlPayload = '<?xml version="1.0" encoding="UTF-8"?><Req_User_Dtls><Username>' + username + '</Username><Password>' + password + '</Password></Req_User_Dtls>';
+    var xmlPayload = '<?xml version="1.0" encoding="UTF-8"?><Req_User_Dtls><Username>' + username + '</Username><Password>' + password + '</Password><Dob>' +dob+'</Dob></Req_User_Dtls>';
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'https://abweblive.servehttp.com:7080/API/UserDetails/Creation', true);
+    xhr.open('POST', 'http://anvesh.com:7080/API/UserDetails/Creation', true);
 
     xhr.onreadystatechange = function() {
       if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -98,7 +102,15 @@
           responseElement.innerHTML = '<pre>' + respMessage + '</pre>';
 				
         } else {
+		  var responseXML = xhr.responseXML;
+		  const respMessage = responseXML.querySelector('LoginDetails').textContent;
+          
+		  if (respMessage === "") {
           alert('Error: Unable to Create User at the moment, Please try after sometime.');
+		  }
+		  else {
+		  alert(respMessage);
+		  }
         }
       }
     };

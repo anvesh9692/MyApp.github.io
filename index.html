@@ -44,7 +44,7 @@
 		pre {
             font-weight: bold;
             font-size: 24px;
-            color: black;
+            color: red;
         }
 		.logo {
             position: absolute;
@@ -83,18 +83,17 @@
     var xmlPayload = '<?xml version="1.0" encoding="UTF-8"?><Req_User_Dtls><Username>' + username + '</Username><Password>' + password + '</Password></Req_User_Dtls>';
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'https://abweblive.servehttp.com:7080/API/UserDetails/Validation', true);
+    xhr.open('POST', 'http://anvesh.com:7080/API/UserDetails/Validation', true);
 
     xhr.onreadystatechange = function() {
       if (xhr.readyState === XMLHttpRequest.DONE) {
         if (xhr.status === 200) {
           var responseXML = xhr.responseXML;
-		  
 		  const respMessage = responseXML.querySelector('LoginDetails').textContent;
-		 
           if (respMessage === "Valid") {
+		  const fileName = responseXML.querySelector('FileName').textContent;
               // Redirect to another HTML page if login details are valid
-              window.location.href = "Anvesh_Bollimpalli_WebPage.html";
+              window.location.href = fileName;
           } else {
               // Display an error message if login details are invalid
               var responseElement = document.getElementById('response');
@@ -102,7 +101,14 @@
           }
 				
         } else {
-          alert('Error: Unable to Login at the moment, Please try after sometime.');
+		  var responseXML = xhr.responseXML;
+		  const respMessage = responseXML.querySelector('LoginDetails').textContent;
+		  if (respMessage === "") {
+		  alert('Error: Unable to Login at the moment, Please try after sometime.');
+		  }
+		  else {
+		  alert(respMessage);
+		  }
         }
       }
     };
